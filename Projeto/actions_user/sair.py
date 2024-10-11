@@ -1,0 +1,2 @@
+def mathsair():
+    quit()
