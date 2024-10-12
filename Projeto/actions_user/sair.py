@@ -1,2 +1,5 @@
+import sys
+
+
 def mathsair():
-    quit()
+    sys.exit()
