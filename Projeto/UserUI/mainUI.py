@@ -8,10 +8,12 @@ from Projeto.actions_user import sacar
 from Projeto.actions_user import sair
 from Projeto.actions_user import vender_cripto
 
+# Interface Principal
 def mainUserInterface():
 
     logado = False
 
+    # se logado tem que logar, se nao abre o programa
     if logado == False:
         print("Bem vindo ao banco Pieralini")
         print()
@@ -27,6 +29,7 @@ def mainUserInterface():
             print('Senha errada, encerrando programa')
             sair.mathsair()
 
+    # Logaodo, enqaunto o usuario nao quiser sair
     while True:
        print('1.  Consultar saldo')
        print('2.  Consultar extrato')
@@ -37,19 +40,23 @@ def mainUserInterface():
        print('7.  Atualizar cotação')
        print('8.  Sair')
 
+        # dicionario de acoes
        user_actions = {
-           1: consultar_saldo,
-           2: consultar_extrato,
-           3: depositar,
-           4: sacar,
-           5: comprar_cripto,
-           6: vender_cripto,
-           7: atualizar_cotacao,
-           8: sair
+
+           # chave:  metodo
+           1: consultar_saldo.methconsultar_saldo(),
+           2: consultar_extrato.mathconsultar_extrato(),
+           3: depositar.mathdepositar(),
+           4: sacar.mathsacar(),
+           5: comprar_cripto.mathcomprar_cripto(),
+           6: vender_cripto.mathvender_cripto(),
+           7: atualizar_cotacao.mathatualizar_cotacao(),
+           8: sair.mathsair()
        }
 
        opcao = int(input())
 
+        # verficia a opcao
        if opcao == 8:
            break
        if opcao in user_actions:
