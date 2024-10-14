@@ -8,10 +8,10 @@ from Projeto.actions_user import sacar
 from Projeto.actions_user import sair
 from Projeto.actions_user import vender_cripto
 
+
 # Interface Principal
 def mainUserInterface():
-
-    logado = False
+    logado = True
 
     # se logado tem que logar, se nao abre o programa
     if logado == False:
@@ -31,36 +31,35 @@ def mainUserInterface():
 
     # Logaodo, enqaunto o usuario nao quiser sair
     while True:
-       print('1.  Consultar saldo')
-       print('2.  Consultar extrato')
-       print('3.  Depositar')
-       print('4.  Sacar')
-       print('5.  Comprar criptomoedas')
-       print('6.  Vender criptomoedas')
-       print('7.  Atualizar cotação')
-       print('8.  Sair')
+        print('------------------------------------------------------')
+        print('1.  Consultar saldo')
+        print('2.  Consultar extrato')
+        print('3.  Depositar')
+        print('4.  Sacar')
+        print('5.  Comprar criptomoedas')
+        print('6.  Vender criptomoedas')
+        print('7.  Atualizar cotação')
+        print('8.  Sair')
 
-        # dicionario de acoes
-       user_actions = {
-
-           # chave:  metodo
-           1: consultar_saldo.methconsultar_saldo(),
-           2: consultar_extrato.mathconsultar_extrato(),
-           3: depositar.mathdepositar(),
-           4: sacar.mathsacar(),
-           5: comprar_cripto.mathcomprar_cripto(),
-           6: vender_cripto.mathvender_cripto(),
-           7: atualizar_cotacao.mathatualizar_cotacao(),
-           8: sair.mathsair()
-       }
-
-       opcao = int(input())
+        opcao = int(input())
 
         # verficia a opcao
-       if opcao == 8:
-           break
-       if opcao in user_actions:
-           user_actions[opcao]
-       else:
-           print('Valor inválido, tente novamente por gentileza')
-
+        if opcao == 1:
+            consultar_saldo.methconsultar_saldo()
+        elif opcao == 2:
+            consultar_extrato.mathconsultar_extrato()
+        elif opcao == 3:
+            depositar.mathdepositar()
+        elif opcao == 4:
+            sacar.mathsacar()
+        elif opcao == 5:
+            comprar_cripto.mathcomprar_cripto()
+        elif opcao == 6:
+            vender_cripto.mathvender_cripto()
+        elif opcao == 7:
+            atualizar_cotacao.mathatualizar_cotacao()
+        elif opcao == 8:
+            sair.mathsair()
+        else:
+            print('Valor inválido, tente novamente por gentileza')
+        print('------------------------------------------------------')
