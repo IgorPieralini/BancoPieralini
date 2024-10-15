@@ -1,3 +1,5 @@
+import os
+
 from Projeto.user import user
 from Projeto.actions_user import consultar_saldo
 from Projeto.actions_user import atualizar_cotacao
@@ -7,7 +9,6 @@ from Projeto.actions_user import depositar
 from Projeto.actions_user import sacar
 from Projeto.actions_user import sair
 from Projeto.actions_user import vender_cripto
-
 
 # Interface Principal
 def mainUserInterface():
@@ -29,6 +30,12 @@ def mainUserInterface():
             print('Senha errada, encerrando programa')
             sair.mathsair()
 
+    print('------------------------------------------------------')
+    print('Nome:', user.nome)
+    print('CPF', user.cpf_string)
+    print()
+    consultar_saldo.methconsultar_saldo()
+
     # Logaodo, enqaunto o usuario nao quiser sair
     while True:
         print('------------------------------------------------------')
@@ -41,25 +48,24 @@ def mainUserInterface():
         print('7.  Atualizar cotação')
         print('8.  Sair')
 
+        user_options = {
+            1: consultar_saldo.methconsultar_saldo,
+            2: consultar_extrato.mathconsultar_extrato,
+            3: depositar.mathdepositar,
+            4: sacar.mathsacar,
+            5: comprar_cripto.mathcomprar_cripto,
+            6: vender_cripto.mathvender_cripto,
+            7: atualizar_cotacao.mathatualizar_cotacao,
+            8: sair.mathsair
+        }
+
         opcao = int(input())
 
-        # verficia a opcao
-        if opcao == 1:
-            consultar_saldo.methconsultar_saldo()
-        elif opcao == 2:
-            consultar_extrato.mathconsultar_extrato()
-        elif opcao == 3:
-            depositar.mathdepositar()
-        elif opcao == 4:
-            sacar.mathsacar()
-        elif opcao == 5:
-            comprar_cripto.mathcomprar_cripto()
-        elif opcao == 6:
-            vender_cripto.mathvender_cripto()
-        elif opcao == 7:
-            atualizar_cotacao.mathatualizar_cotacao()
-        elif opcao == 8:
-            sair.mathsair()
+        if opcao in user_options:
+            user_options[opcao]()
         else:
-            print('Valor inválido, tente novamente por gentileza')
+            print('Opção inválida, tente novamente por gentileza')
+
         print('------------------------------------------------------')
+
+
