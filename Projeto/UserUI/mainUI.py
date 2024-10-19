@@ -1,6 +1,5 @@
 import os
 
-from Projeto.user import user
 from Projeto.actions_user import consultar_saldo
 from Projeto.actions_user import atualizar_cotacao
 from Projeto.actions_user import comprar_cripto
@@ -9,63 +8,75 @@ from Projeto.actions_user import depositar
 from Projeto.actions_user import sacar
 from Projeto.actions_user import sair
 from Projeto.actions_user import vender_cripto
+from Projeto.actions_user.sair import mathsair
+from Projeto.database.loadupload import load_users
 
-# Interface Principal
+
+
+
+
 def mainUserInterface():
-    logado = True
+    logado = False
 
-    # se logado tem que logar, se nao abre o programa
-    if logado == False:
-        print("Bem vindo ao banco Pieralini")
-        print()
-        cpf_login = int(input("Digite seu CPF: "))
+    # Se o usuário não estiver logado, realiza o login
+    if not logado:
 
-        if cpf_login != user.cpf:
-            print('CPF errado, encerrando programa')
-            sair.mathsair()
+        users = load_users('database/users.txt')  # Carrega os usuários
 
-        senha_login = int(input("Digite sua senha: "))
+        cpf_user = input('Digite seu CPF: ').strip()
+        password_user = input('Digite sua senha: ').strip()
 
-        if senha_login != user.senha:
-            print('Senha errada, encerrando programa')
-            sair.mathsair()
+        # Itera sobre a lista de usuários e verifica as credenciais
+        for user in users:
+            if isinstance(user, dict):  # Verifica se é um dicionário válido
+                if user['cpf'] == cpf_user and user['password'] == password_user:
+                    print('------------------------------------------------------')
+                    print('Nome:', user['name'])
+                    print('CPF:', user['cpf'])
+                    print()
+                    logado = True  # Marca como logado
+                    break  # Interrompe o loop se o login foi bem-sucedido
+                else:
+                    print('Login inválido encerrando programa')
+                    mathsair()
 
-    print('------------------------------------------------------')
-    print('Nome:', user.nome)
-    print('CPF', user.cpf_string)
-    print()
-    consultar_saldo.methconsultar_saldo()
+        consultar_saldo.methconsultar_saldo()
 
-    # Logaodo, enqaunto o usuario nao quiser sair
-    while True:
-        print('------------------------------------------------------')
-        print('1.  Consultar saldo')
-        print('2.  Consultar extrato')
-        print('3.  Depositar')
-        print('4.  Sacar')
-        print('5.  Comprar criptomoedas')
-        print('6.  Vender criptomoedas')
-        print('7.  Atualizar cotação')
-        print('8.  Sair')
+        # Logaodo, enqaunto o usuario nao quiser sair
+        while True:
+            print('------------------------------------------------------')
+            print('1.  Consultar saldo')
+            print('2.  Consultar extrato')
+            print('3.  Depositar')
+            print('4.  Sacar')
+            print('5.  Comprar criptomoedas')
+            print('6.  Vender criptomoedas')
+            print('7.  Atualizar cotação')
+            print('8.  Sair')
 
-        user_options = {
-            1: consultar_saldo.methconsultar_saldo,
-            2: consultar_extrato.mathconsultar_extrato,
-            3: depositar.mathdepositar,
-            4: sacar.mathsacar,
-            5: comprar_cripto.mathcomprar_cripto,
-            6: vender_cripto.mathvender_cripto,
-            7: atualizar_cotacao.mathatualizar_cotacao,
-            8: sair.mathsair
-        }
+            user_options = {
+                1: consultar_saldo.methconsultar_saldo,
+                2: consultar_extrato.mathconsultar_extrato,
+                3: depositar.mathdepositar,
+                4: sacar.mathsacar,
+                5: comprar_cripto.mathcomprar_cripto,
+                6: vender_cripto.mathvender_cripto,
+                7: atualizar_cotacao.mathatualizar_cotacao,
+                8: sair.mathsair
+            }
 
-        opcao = int(input())
+            opcao = int(input())
 
-        if opcao in user_options:
-            user_options[opcao]()
-        else:
-            print('Opção inválida, tente novamente por gentileza')
+            if opcao in user_options:
+                user_options[opcao]()
+            else:
+                print('Opção inválida, tente novamente por gentileza')
 
-        print('------------------------------------------------------')
+    else:
+        print('Login inválido! Tente novamente')
+        if not logado:
+            print("CPF ou senha incorretos. Tente novamente.")
+
+
 
 
