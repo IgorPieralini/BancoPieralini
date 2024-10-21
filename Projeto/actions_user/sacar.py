@@ -1,5 +1,5 @@
-from Projeto.database import loadupload
-from Projeto.database.loadupload import saldo_local
+from Projeto.actions_user import loadupload
+from Projeto.actions_user.loadupload import saldo_local
 
 # saca valores do seu saldo
 def mathsacar():

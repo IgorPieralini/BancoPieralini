@@ -1,5 +1,3 @@
-import os
-
 from Projeto.actions_user import consultar_saldo
 from Projeto.actions_user import atualizar_cotacao
 from Projeto.actions_user import comprar_cripto
@@ -9,7 +7,7 @@ from Projeto.actions_user import sacar
 from Projeto.actions_user import sair
 from Projeto.actions_user import vender_cripto
 from Projeto.actions_user.sair import mathsair
-from Projeto.database.loadupload import load_users
+from Projeto.actions_user.loadupload import load_users
 
 
 
