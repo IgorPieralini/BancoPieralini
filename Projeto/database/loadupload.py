@@ -1,67 +1,81 @@
 import os
-from calendar import day_abbr
 
-# caminho do arquvio de cada saldo
+# Caminho dos arquivos de saldo e banco de dados
 saldo_local = 'resources/saldo.txt'
 saldo_bitcoin = 'resources/moedas/bitcoin.txt'
 saldo_ethereum = 'resources/moedas/ethereum.txt'
 saldo_ripple = 'resources/moedas/ripple.txt'
 database_user = 'users.txt'
 
+# Função para carregar saldo dos arquivos
 def load_arquivos(arquivo):
-    caminho = arquivo
-    if os.path.exists(caminho):
-        with open(saldo_local, 'r') as arquivo:
-            try:
-                # le o database
-                return float(arquivo.read())
-            except ValueError:
-                return 0.0  # Se o valor no arquivo for inválido, retorna 0
+    if os.path.exists(arquivo):
+        try:
+            with open(arquivo, 'r') as arq:
+                return float(arq.read().strip())
+        except ValueError:
+            print(f"Erro ao ler o valor de {arquivo}. Retornando saldo 0.0.")
+            return 0.0
     else:
-        return 0.0  # Se o arquivo não existir, retorna 0
+        print(f"Arquivo {arquivo} não encontrado. Retornando saldo 0.0.")
+        return 0.0
 
+# Função para salvar saldo nos arquivos
 def upload_arquivos(caminho, saldo):
-    with open(caminho, 'w') as arquivo: arquivo.write(str(saldo))
+    with open(caminho, 'w') as arquivo:
+        arquivo.write(str(saldo))
 
-# carrega as informações de todos os usários
+# Função para carregar todos os usuários do banco de dados
 def load_users(caminho):
     users = []
-    # verifica se o arquivo existe
     if os.path.exists(caminho):
         try:
-            # abre aqrquivo com codigo utf -8
             with open(caminho, 'r', encoding='utf-8') as arquivo:
-
-                # para cada linha no arquivo
                 for linha in arquivo:
                     linha = linha.strip()
-
                     if linha:
                         data = linha.split(',')
-                        if len(data) == 3:
-                            # variaveis do usuario
+                        # Verifica se a linha tem exatamente 7 elementos
+                        if len(data) == 7:
                             user = {
-                                'cpf': data[0].strip(),  # Acessa o índice diretamente
+                                'cpf': data[0].strip(),
                                 'name': data[1].strip(),
-                                'password': data[2].strip()
+                                'password': data[2].strip(),
+                                'saldo': float(data[3].strip()),
+                                'bitcoin': float(data[4].strip()),
+                                'ethereum': float(data[5].strip()),
+                                'ripple': float(data[6].strip())
                             }
                             users.append(user)
-        # se o arquivo nao foi encontrado
-        except FileNotFoundError: print('O Arquivo não foi encontrado!')
-
-        return users
-    # se o arquivo nao existe
+                        else:
+                            print(f"Linha inválida: {linha}")
+        except FileNotFoundError:
+            print('O arquivo não foi encontrado!')
+        except Exception as e:
+            print(f"Erro ao carregar usuários: {e}")
     else:
         print('Arquivo inexistente!')
 
-# mostra todos os usuários
+    return users
+
+# Função para exibir todos os usuários
 def print_users(users):
-    # se nao existe nenhum usuario
-    if not users: print("Nenhum usuário encontrado.")
+    if not users:
+        print("Nenhum usuário encontrado.")
+    else:
+        print("Usuários carregados:")
+        print("------------------------------------------------------")
+        for user in users:
+            print(f"Nome: {user['name']}, CPF: {user['cpf']}, Senha: {user['password']}, "
+                  f"Saldo: {user['saldo']}, Bitcoin: {user['bitcoin']}, "
+                  f"Ethereum: {user['ethereum']}, Ripple: {user['ripple']}")
+        print("------------------------------------------------------")
 
-    print("Usuários carregados:")
-    print("------------------------------------------------------")
+users = load_users(database_user)
+saldo_bitcoin = 0
+for user in users:
+    saldo_bitcoin = user['bitcoin']
+    user['bitcoin'] = 500
+    print(f'{user['bitcoin']}')
 
-    # para cada user in usuarios
-    for user in users: print(f"Nome: {user['name']}, CPF: {user['cpf']}, Senha: {user['password']}")
-    print("------------------------------------------------------")
+
