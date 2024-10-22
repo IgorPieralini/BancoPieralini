@@ -1,3 +1,4 @@
 from Projeto.UserUI.mainUI import  mainUserInterface
 
-mainUserInterface()
+if __name__ == "__main__":
+    mainUserInterface()
