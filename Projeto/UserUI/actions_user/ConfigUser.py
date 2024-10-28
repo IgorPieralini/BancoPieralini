@@ -1,4 +1,6 @@
 import os
+from datetime import datetime
+
 
 class ConfigUser:
     def __init__(self, user_file):
@@ -98,3 +100,85 @@ class ConfigUser:
             return self.selected_user['ripple']
         print("Nenhum usuário foi selecionado.")
         return None
+
+def gerar_extrato(user, valor, moeda, tipo, caminho_arquivo='extrato.txt'):
+    """Adiciona um novo registro de extrato ao arquivo."""
+    data_hora = datetime.now().strftime('%d-%m-%Y %H:%M')
+    tipo_operacao = '+' if tipo == 'deposito' else '-'
+
+    # Formata a linha do extrato com o CPF do usuário
+    linha_extrato = (
+        f"{user['cpf']} {data_hora} {tipo_operacao} {valor:.2f} {moeda} "
+        f"CT: 0.0 TX: 0.00 "
+        f"REAL: {user['saldo']:.2f} BTC: {user.get('bitcoin', 0.0):.3f} "
+        f"ETH: {user.get('ethereum', 0.0):.3f} XRP: {user.get('ripple', 0.0):.1f}\n"
+    )
+
+    # Adiciona a nova linha ao extrato sem sobrescrever o conteúdo existente
+    try:
+        with open(caminho_arquivo, 'a', encoding='utf-8') as arquivo:
+            arquivo.write(linha_extrato)
+        print("Extrato atualizado com sucesso.")
+    except Exception as e:
+        print(f"Erro ao adicionar no extrato: {e}")
+
+
+def exibir_extrato(user_config):
+    """Exibe o extrato do usuário logado."""
+    if user_config.selected_user:
+        consultar_extrato(user_config.selected_user)
+    else:
+        print("Nenhum usuário selecionado.")
+
+
+def consultar_extrato(user_config, cpf_user):
+    """Exibe o extrato do usuário logado."""
+    if user_config.selected_user:
+        cpf = user_config.selected_user['cpf']
+        extrato = ler_extrato_por_cpf(cpf)
+
+        if extrato:
+            print(f"Extrato do usuário {user_config.selected_user['name']} (CPF: {cpf}):")
+            print("------------------------------------------------------")
+            for linha in extrato:
+                print(linha)
+            print("------------------------------------------------------")
+        else:
+            print(f"Nenhuma transação encontrada para o CPF {cpf}.")
+    else:
+        print("Nenhum usuário foi selecionado.")
+
+def ler_extrato_por_cpf(cpf, caminho_arquivo='actions_user/extrato.txt'):
+    """Lê e retorna todas as transações de um usuário pelo CPF."""
+    extratos_usuario = []
+    try:
+        with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
+            for linha in arquivo:
+                if linha.startswith(cpf):  # Verifica se a linha é do usuário pelo CPF
+                    extratos_usuario.append(linha.strip())
+    except FileNotFoundError:
+        print(f"Arquivo '{caminho_arquivo}' não encontrado.")
+    except Exception as e:
+        print(f"Erro ao ler o extrato: {e}")
+
+    return extratos_usuario
+from datetime import datetime
+
+def adicionar_extrato(user, valor, tipo, moeda, caminho_arquivo='actions_user/extrato.txt'):
+    """Adiciona uma transação ao extrato do usuário."""
+    data_hora = datetime.now().strftime('%d-%m-%Y %H:%M')
+    operacao = '+' if tipo == 'compra' else '-'
+
+    linha = (
+        f"{user['cpf']} {data_hora} {operacao} {valor:.2f} {moeda} "
+        f"CT: 0.0 TX: 0.00 "
+        f"REAL: {user['saldo']:.2f} BTC: {user['bitcoin']:.3f} "
+        f"ETH: {user['ethereum']:.3f} XRP: {user['ripple']:.1f}\n"
+    )
+
+    try:
+        with open(caminho_arquivo, 'a', encoding='utf-8') as arquivo:
+            arquivo.write(linha)
+        print("Transação adicionada ao extrato com sucesso.")
+    except Exception as e:
+        print(f"Erro ao adicionar transação: {e}")

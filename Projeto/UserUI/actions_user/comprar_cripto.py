@@ -1,17 +1,39 @@
-def mathcomprar_cripto(user_config, cpf):
+from Projeto.UserUI.actions_user.ConfigUser import adicionar_extrato
+
+
+def mathcomprar_cripto(user_config, cpf_user):
+    """Permite ao usuário comprar criptomoedas e registra no extrato."""
     print('1 - Comprar Bitcoin')
     print('2 - Comprar Ethereum')
     print('3 - Comprar Ripple')
 
-    resposta = int(input())
-    if resposta == 1:
-        comprar_bitcoin(user_config, cpf)
-    elif resposta == 2:
-        comprar_ethereum(user_config, cpf)
-    elif resposta == 3:
-        comprar_ripple(user_config, cpf)
-    else:
-        print('resposta inválida, tente novamente!')
+    try:
+        resposta = int(input('Escolha a criptomoeda que deseja comprar: '))
+        valor = float(input('Digite o valor para compra: '))
+
+        if resposta == 1:
+            user_config.selected_user['bitcoin'] += valor
+            adicionar_extrato(user_config.selected_user, valor, 'compra', 'BTC')
+            print(f"Compra de {valor} BTC realizada com sucesso!")
+
+        elif resposta == 2:
+            user_config.selected_user['ethereum'] += valor
+            adicionar_extrato(user_config.selected_user, valor, 'compra', 'ETH')
+            print(f"Compra de {valor} ETH realizada com sucesso!")
+
+        elif resposta == 3:
+            user_config.selected_user['ripple'] += valor
+            adicionar_extrato(user_config.selected_user, valor, 'compra', 'XRP')
+            print(f"Compra de {valor} XRP realizada com sucesso!")
+
+        else:
+            print('Resposta inválida, tente novamente!')
+
+        # Salva as alterações no arquivo de usuários
+        user_config.salvar_users()
+
+    except ValueError:
+        print("Entrada inválida. Por favor, digite um número válido.")
 
 bitcoin = 500
 ripple = 500

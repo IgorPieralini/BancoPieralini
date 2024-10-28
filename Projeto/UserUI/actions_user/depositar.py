@@ -1,7 +1,11 @@
+from Projeto.UserUI.actions_user.ConfigUser import gerar_extrato
+
+
 def mathdepositar(user_config, cpf):
     """Função para depositar um valor na conta do usuário."""
     # A instância de user_config já está sendo passada corretamente, não precisa criar uma nova.
 
+    global valor
     if user_config.select_user_by_cpf(cpf):
         valor = float(input("Digite o valor para depósito: "))
         user_config.selected_user['saldo'] += valor  # Atualiza o saldo do usuário
@@ -11,3 +15,6 @@ def mathdepositar(user_config, cpf):
         user_config.salvar_users()
     else:
         print("Usuário não encontrado.")
+
+    gerar_extrato(user_config.selected_user, valor, 'REAL', 'deposito')
+

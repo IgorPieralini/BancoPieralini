@@ -1,19 +1,48 @@
-def mathvender_cripto(user_config, cpf):
+from Projeto.UserUI.actions_user.ConfigUser import adicionar_extrato
+
+
+def mathvender_cripto(user_config, cpf_user):
+    """Permite ao usuário vender criptomoedas e registra no extrato."""
     print('1 - Vender Bitcoin')
     print('2 - Vender Ethereum')
     print('3 - Vender Ripple')
 
-    resposta = int(input())
-    if resposta == 1:
-        vender_bitcoin(user_config, cpf)
-    elif resposta == 2:
-        vender_ethereum(user_config, cpf)
-    elif resposta == 3:
-        vender_ripple(user_config, cpf)
-    else:
-        print('resposta inválida, tente novamente!')
+    try:
+        resposta = int(input('Escolha a criptomoeda que deseja vender: '))
+        valor = float(input('Digite o valor para venda: '))
 
+        if resposta == 1:
+            if valor <= user_config.selected_user['bitcoin']:
+                user_config.selected_user['bitcoin'] -= valor
+                adicionar_extrato(user_config.selected_user, valor, 'venda', 'BTC')
+                print(f"Venda de {valor} BTC realizada com sucesso!")
+            else:
+                print("Saldo insuficiente de Bitcoin para a venda.")
 
+        elif resposta == 2:
+            if valor <= user_config.selected_user['ethereum']:
+                user_config.selected_user['ethereum'] -= valor
+                adicionar_extrato(user_config.selected_user, valor, 'venda', 'ETH')
+                print(f"Venda de {valor} ETH realizada com sucesso!")
+            else:
+                print("Saldo insuficiente de Ethereum para a venda.")
+
+        elif resposta == 3:
+            if valor <= user_config.selected_user['ripple']:
+                user_config.selected_user['ripple'] -= valor
+                adicionar_extrato(user_config.selected_user, valor, 'venda', 'XRP')
+                print(f"Venda de {valor} XRP realizada com sucesso!")
+            else:
+                print("Saldo insuficiente de Ripple para a venda.")
+
+        else:
+            print('Resposta inválida, tente novamente!')
+
+        # Salva as alterações no arquivo de usuários
+        user_config.salvar_users()
+
+    except ValueError:
+        print("Entrada inválida. Por favor, digite um número válido.")
 bitcoin = 500
 ripple = 500
 ethereum = 500
