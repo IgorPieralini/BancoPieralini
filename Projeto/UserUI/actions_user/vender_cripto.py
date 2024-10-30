@@ -42,15 +42,13 @@ def mathvender_cripto(user_config, cpf_user, caminho):
                 if int(user_config.selected_user['bitcoin']) < 0:
                     print('Você não tem saldo para isto')
                 else:
-                    if (valor * bitcoin_cotacao) > int(user_config.selected_user['bitcoin']):
 
-                        user_config.selected_user['saldo'] += valor - (valor * 0.03)  # Atualiza o saldo do usuário
-                        user_config.selected_user['bitcoin'] -= valor
-                        adicionar_extrato(user_config.selected_user, valor, 'venda', 'BTC')
-                        print(f"Você vendeu R$:{valor} de bitcoins!")
+                    user_config.selected_user['saldo'] += (valor * bitcoin_cotacao) - ((valor * bitcoin_cotacao) * 0.03)  # Atualiza o saldo do usuário
+                    user_config.selected_user['bitcoin'] -= (valor * bitcoin_cotacao)
+                    adicionar_extrato(user_config.selected_user, valor, 'venda', 'BTC')
+                    print(f"Você vendeu {valor} de bitcoins!")
+                    user_config.salvar_users()
 
-                # Salva as alterações no arquivo de usuários
-                user_config.salvar_users()
 
         elif resposta == 2:
             if user_config.select_user_by_cpf(cpf_user):
@@ -60,11 +58,11 @@ def mathvender_cripto(user_config, cpf_user, caminho):
                     print('Você não tem saldo para isto')
                 else:
                     valor = quantidade_cripto
-                    if (valor * ethereum_cotacao) > int(user_config.selected_user['ethereum']):
-                        user_config.selected_user['saldo'] += valor - (valor * 0.02)  # Atualiza o saldo do usuário
-                        user_config.selected_user['ethereum'] -= valor
-                        adicionar_extrato(user_config.selected_user, valor, 'venda', 'ETH')
-                        print(f"Você vendeu R$:{valor} de ethereums!")
+
+                    user_config.selected_user['saldo'] += (valor * ethereum_cotacao) - ((valor * ethereum_cotacao) * 0.02)  # Atualiza o saldo do usuário
+                    user_config.selected_user['ethereum'] -= (valor * ethereum_cotacao)
+                    adicionar_extrato(user_config.selected_user, valor, 'venda', 'ETH')
+                    print(f"Você vendeu {valor} de ethereums!")
 
                 # Salva as alterações no arquivo de usuários
                 user_config.salvar_users()
@@ -77,11 +75,11 @@ def mathvender_cripto(user_config, cpf_user, caminho):
                     print('Você não tem saldo para isto')
                 else:
                     valor = quantidade_cripto
-                    if (valor * ripple_cotacao) > int(user_config.selected_user['ripple']):
-                        user_config.selected_user['saldo'] += valor - (valor * 0.01)  # Atualiza o saldo do usuário
-                        user_config.selected_user['ripple'] -= valor
-                        adicionar_extrato(user_config.selected_user, valor, 'venda', 'XRP')
-                        print(f"Você vendeu R$:{valor} de ripples!")
+
+                    user_config.selected_user['saldo'] += (valor * ripple_cotacao) - ((valor * ripple_cotacao) * 0.01)  # Atualiza o saldo do usuário
+                    user_config.selected_user['ripple'] -= (valor * ripple_cotacao)
+                    adicionar_extrato(user_config.selected_user, valor, 'venda', 'XRP')
+                    print(f"Você vendeu {valor} de ripples!")
 
                 # Salva as alterações no arquivo de usuários
                 user_config.salvar_users()

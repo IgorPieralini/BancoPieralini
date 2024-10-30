@@ -40,13 +40,13 @@ def comprar_bitcoin(user_config, cpf, caminho):
         quantidade_cripto = float(input("Digite quantos bitcoins deseja comprar: "))
         valor = quantidade_cripto
 
-        if (valor * bitcoin_cotacao) + (valor * 0.02)  > int(user_config.selected_user['saldo']):
+        if (valor * bitcoin_cotacao) + ((valor * bitcoin_cotacao) * 0.02)  > int(user_config.selected_user['saldo']):
             print('Você não tem saldo para isto')
         else:
-            user_config.selected_user['saldo'] -= valor + (valor * 0.02)  # Atualiza o saldo do usuário
-            user_config.selected_user['bitcoin'] += valor
+            user_config.selected_user['saldo'] -= (valor * bitcoin_cotacao) + ((valor * bitcoin_cotacao)  * 0.02)  # Atualiza o saldo do usuário
+            user_config.selected_user['bitcoin'] += (valor * bitcoin_cotacao)
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'BTC')
-            print(f"Você comprou R$:{valor} de bitcoins!")
+            print(f"Você comprou {valor} de bitcoins!")
 
         # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
@@ -66,13 +66,13 @@ def comprar_ethereum(user_config, cpf, caminho):
         quantidade_cripto = float(input("Digite quantos ethereums deseja comprar: "))
         valor = quantidade_cripto
 
-        if (valor * ethereum_cotacao) + (valor * 0.01) >  int(user_config.selected_user['saldo']):
+        if (valor * ethereum_cotacao) + ((valor * ethereum_cotacao)* 0.01) >  int(user_config.selected_user['saldo']):
             print('Você não tem saldo para isto')
         else:
-            user_config.selected_user['saldo'] -= valor + (valor * 0.01)   # Atualiza o saldo do usuário
-            user_config.selected_user['ethereum'] += valor
+            user_config.selected_user['saldo'] -= (valor * ethereum_cotacao) + ((valor * ethereum_cotacao) * 0.01)   # Atualiza o saldo do usuário
+            user_config.selected_user['ethereum'] += (valor * ethereum_cotacao)
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'ETH')
-            print(f"Você comprou R$:{valor} de ethereums!")
+            print(f"Você comprou {valor} de ethereums!")
 
         # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
@@ -92,13 +92,13 @@ def comprar_ripple(user_config, cpf, caminho):
         quantidade_cripto = float(input("Digite quantos ripples deseja comprar: "))
         valor = quantidade_cripto
 
-        if (valor * ripple_cotacao) + (valor * 0.01)  > int(user_config.selected_user['saldo']):
+        if (valor * ripple_cotacao) + ((valor * ripple_cotacao) * 0.01)  > int(user_config.selected_user['saldo']):
             print('Você não tem saldo para isto')
         else:
-            user_config.selected_user['saldo'] -= valor + (valor * 0.01)   # Atualiza o saldo do usuário
-            user_config.selected_user['ripple'] += valor
+            user_config.selected_user['saldo'] -= (valor * ripple_cotacao) + ((valor * ripple_cotacao) * 0.01)   # Atualiza o saldo do usuário
+            user_config.selected_user['ripple'] += (valor * ripple_cotacao)
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'XRP')
-            print(f"Você comprou R$:{valor} de ripples!")
+            print(f"Você comprou {valor} de ripples!")
 
         # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
