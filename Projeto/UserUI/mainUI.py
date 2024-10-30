@@ -57,13 +57,13 @@ def executar_interface_usuario(user_config, cpf_user):
         mathsacar(user_config, cpf_user)
 
     def comprar_cripto():
-        mathcomprar_cripto(user_config, cpf_user)
+        mathcomprar_cripto(user_config, cpf_user, caminho_cotacao)
 
     def vender_cripto():
-        mathvender_cripto(user_config, cpf_user)
-
+        mathvender_cripto(user_config, cpf_user, caminho_cotacao)
+    caminho_cotacao =  'actions_user/cotacao'
     def atualizar_cotacao():
-        mathatualizar_cotacao(user_config, cpf_user)
+        mathatualizar_cotacao(caminho_cotacao)
 
     def sair():
         print("Sessão encerrada. Até mais!")
