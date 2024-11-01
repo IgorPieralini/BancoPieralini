@@ -4,9 +4,8 @@ from Projeto.UserUI.actions_user.ConfigUser import adicionar_extrato
 
 def mathvender_cripto(user_config, cpf_user, caminho):
     with open(caminho, 'r') as arquivo:
-        linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+        linha = arquivo.readline().strip()
 
-    # Separar os valores e convertê-los para inteiros
     valores = linha.split(',')
     bitcoin_cotacao, ethereum_cotacao, ripple_cotacao = int(valores[0]), int(valores[1]), int(valores[2])
     """Permite ao usuário vender criptomoedas e registra no extrato."""
@@ -15,20 +14,17 @@ def mathvender_cripto(user_config, cpf_user, caminho):
     print('3 - Vender Ripple')
 
     with open(caminho, 'r') as arquivo:
-        linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+        linha = arquivo.readline().strip()
 
-    # Separar os valores e convertê-los para inteiros
     valores = linha.split(',')
     valor1, valor2, valor3 = int(valores[0]), int(valores[1]), int(valores[2])
 
     def mathatualizar_cotacao():
         with open('cotacao', 'r') as arquivo:
-            linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+            linha = arquivo.readline().strip()
 
-        # Separar os valores pela vírgula
         valores = linha.split(',')
 
-        # Armazenar cada valor em variáveis separadas, convertendo para inteiro
         bitcoin_cotacao = int(valores[0])
         ethereum_cotacao = int(valores[1])
         ripple_cotacao = int(valores[2])
@@ -64,7 +60,6 @@ def mathvender_cripto(user_config, cpf_user, caminho):
                     adicionar_extrato(user_config.selected_user, valor, 'venda', 'ETH')
                     print(f"Você vendeu {valor} de ethereums!")
 
-                # Salva as alterações no arquivo de usuários
                 user_config.salvar_users()
 
         elif resposta == 3:
@@ -76,12 +71,11 @@ def mathvender_cripto(user_config, cpf_user, caminho):
                 else:
                     valor = quantidade_cripto
 
-                    user_config.selected_user['saldo'] += (valor * ripple_cotacao) - ((valor * ripple_cotacao) * 0.01)  # Atualiza o saldo do usuário
+                    user_config.selected_user['saldo'] += (valor * ripple_cotacao) - ((valor * ripple_cotacao) * 0.01)
                     user_config.selected_user['ripple'] -= (valor * ripple_cotacao)
                     adicionar_extrato(user_config.selected_user, valor, 'venda', 'XRP')
                     print(f"Você vendeu {valor} de ripples!")
 
-                # Salva as alterações no arquivo de usuários
                 user_config.salvar_users()
             else:
                 print("Usuário não encontrado.")
@@ -89,7 +83,6 @@ def mathvender_cripto(user_config, cpf_user, caminho):
         else:
             print('Resposta inválida, tente novamente!')
 
-        # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
 
     except ValueError:

@@ -9,24 +9,21 @@ from Projeto.UserUI.actions_user.ConfigUser import ConfigUser, consultar_extrato
 
 # Inicializa a classe ConfigUser com o caminho para o arquivo de usuários
 caminho = 'actions_user/users.txt'
+caminho_cotacao = 'actions_user/cotacao'
 user_config = ConfigUser(caminho)  # Cria uma instância única de ConfigUser
 
 def mainUserInterface():
-    """Função principal para login e execução da interface do usuário."""
     logado = False
 
-    # Solicita CPF e senha do usuário
     cpf_user = input('Digite seu CPF: ').strip()
     password_user = input('Digite sua senha: ').strip()
 
-    # Verifica se o CPF e a senha são válidos
     for user in user_config.users:
         if user['cpf'] == cpf_user and user['password'] == password_user:
             print('------------------------------------------------------')
             print(f"Nome: {user['name']}\nCPF: {user['cpf']}\n")
             logado = True
 
-            # Tenta selecionar o usuário pelo CPF
             if not user_config.select_user_by_cpf(cpf_user):
                 print("Erro: Não foi possível selecionar o usuário após o login.")
             break
@@ -61,7 +58,7 @@ def executar_interface_usuario(user_config, cpf_user):
 
     def vender_cripto():
         mathvender_cripto(user_config, cpf_user, caminho_cotacao)
-    caminho_cotacao =  'actions_user/cotacao'
+
     def atualizar_cotacao():
         mathatualizar_cotacao(caminho_cotacao)
 
@@ -69,7 +66,6 @@ def executar_interface_usuario(user_config, cpf_user):
         print("Sessão encerrada. Até mais!")
         mathsair()
 
-    # Dicionário de opções
     user_options = {
         1: consultar_saldo,
         2: consultar_extrato_opcao,
@@ -81,7 +77,6 @@ def executar_interface_usuario(user_config, cpf_user):
         8: sair
     }
 
-    # Loop para o menu de opções
     while True:
         print('------------------------------------------------------')
         print('1.  Consultar saldo')
@@ -97,10 +92,10 @@ def executar_interface_usuario(user_config, cpf_user):
             opcao = int(input('Escolha uma opção: '))
 
             if opcao in user_options:
-                user_options[opcao]()  # Chama a função correspondente
+                user_options[opcao]()
 
                 if opcao == 8:
-                    break  # Encerra o loop e finaliza o programa
+                    break
             else:
                 print('Opção inválida, tente novamente.')
 

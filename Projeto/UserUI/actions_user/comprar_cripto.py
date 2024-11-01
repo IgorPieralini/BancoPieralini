@@ -21,7 +21,6 @@ def mathcomprar_cripto(user_config, cpf_user, caminho):
         else:
             print('Resposta inválida, tente novamente!')
 
-        # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
 
     except ValueError:
@@ -29,11 +28,9 @@ def mathcomprar_cripto(user_config, cpf_user, caminho):
 
 def comprar_bitcoin(user_config, cpf, caminho):
     """Função para depositar um valor na conta do usuário."""
-    # A instância de user_config já está sendo passada corretamente, não precisa criar uma nova.
     with open(caminho, 'r') as arquivo:
-        linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+        linha = arquivo.readline().strip()
 
-    # Separar os valores e convertê-los para inteiros
     valores = linha.split(',')
     bitcoin_cotacao, ethereum_cotacao, ripple_cotacao = int(valores[0]), int(valores[1]), int(valores[2])
     if user_config.select_user_by_cpf(cpf):
@@ -48,18 +45,15 @@ def comprar_bitcoin(user_config, cpf, caminho):
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'BTC')
             print(f"Você comprou {valor} de bitcoins!")
 
-        # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
     else:
         print("Usuário não encontrado.")
 
 def comprar_ethereum(user_config, cpf, caminho):
     """Função para depositar um valor na conta do usuário."""
-    # A instância de user_config já está sendo passada corretamente, não precisa criar uma nova.
     with open(caminho, 'r') as arquivo:
-        linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+        linha = arquivo.readline().strip()
 
-    # Separar os valores e convertê-los para inteiros
     valores = linha.split(',')
     bitcoin_cotacao, ethereum_cotacao, ripple_cotacao = int(valores[0]), int(valores[1]), int(valores[2])
     if user_config.select_user_by_cpf(cpf):
@@ -74,18 +68,15 @@ def comprar_ethereum(user_config, cpf, caminho):
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'ETH')
             print(f"Você comprou {valor} de ethereums!")
 
-        # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
     else:
         print("Usuário não encontrado.")
 
 def comprar_ripple(user_config, cpf, caminho):
     """Função para depositar um valor na conta do usuário."""
-    # A instância de user_config já está sendo passada corretamente, não precisa criar uma nova.
     with open(caminho, 'r') as arquivo:
-        linha = arquivo.readline().strip()  # Ler a linha e remover espaços e quebras de linha
+        linha = arquivo.readline().strip()
 
-    # Separar os valores e convertê-los para inteiros
     valores = linha.split(',')
     bitcoin_cotacao, ethereum_cotacao, ripple_cotacao = int(valores[0]), int(valores[1]), int(valores[2])
     if user_config.select_user_by_cpf(cpf):
@@ -100,7 +91,6 @@ def comprar_ripple(user_config, cpf, caminho):
             adicionar_extrato(user_config.selected_user, valor, 'compra', 'XRP')
             print(f"Você comprou {valor} de ripples!")
 
-        # Salva as alterações no arquivo de usuários
         user_config.salvar_users()
     else:
         print("Usuário não encontrado.")
