@@ -4,11 +4,10 @@ from datetime import datetime
 
 class ConfigUser:
     def __init__(self, user_file):
-        self.users = []  # Lista de usuários
-        self.selected_user = None  # Armazena o usuário selecionado
-        self.user_file = user_file  # Caminho do arquivo de usuários
-        self.carregar_usuarios()  # Carrega os usuários do arquivo
-
+        self.users = []
+        self.selected_user = None
+        self.user_file = user_file
+        self.carregar_usuarios()
 
     def carregar_usuarios(self):
         if os.path.exists(self.user_file):
@@ -36,18 +35,12 @@ class ConfigUser:
 
     def select_user_by_cpf(self, cpf):
         cpf = cpf.strip()
-        print(f"[DEBUG] Procurando usuário com CPF: '{cpf}'")
-
         for user in self.users:
-            user_cpf = user['cpf'].strip()
-            print(f"[DEBUG] Comparando '{user_cpf}' com '{cpf}'")
-
-            if user_cpf == cpf:
+            if user['cpf'].strip() == cpf:
                 self.selected_user = user
-                print(f"[DEBUG] Usuário {user['name']} selecionado com sucesso.")
+                print(f"Usuário {user['name']} selecionado com sucesso.")
                 return True
-
-        print(f"[DEBUG] Usuário com CPF '{cpf}' não encontrado.")
+        print(f"Usuário com CPF '{cpf}' não encontrado.")
         return False
 
     def mostrar_valores(self):
@@ -63,7 +56,10 @@ class ConfigUser:
         try:
             with open(self.user_file, 'w', encoding='utf-8') as arquivo:
                 for user in self.users:
-                    linha = f"{user['cpf']},{user['name']},{user['password']},{user['saldo']},{user['bitcoin']},{user['ethereum']},{user['ripple']}\n"
+                    linha = (
+                        f"{user['cpf']},{user['name']},{user['password']},{user['saldo']},"
+                        f"{user['bitcoin']},{user['ethereum']},{user['ripple']}\n"
+                    )
                     arquivo.write(linha)
             print("Usuários salvos com sucesso!")
         except Exception as e:
@@ -97,10 +93,10 @@ class ConfigUser:
         print("Nenhum usuário foi selecionado.")
         return None
 
+
 def gerar_extrato(user, valor, moeda, tipo, caminho_arquivo='extrato.txt'):
     data_hora = datetime.now().strftime('%d-%m-%Y %H:%M')
     tipo_operacao = '+' if tipo == 'deposito' else '-'
-
     linha_extrato = (
         f"{user['cpf']} {data_hora} {tipo_operacao} {valor:.2f} {moeda} "
         f"CT: 0.0 TX: 0.00 "
@@ -123,8 +119,7 @@ def exibir_extrato(user_config):
         print("Nenhum usuário selecionado.")
 
 
-def consultar_extrato(user_config, cpf_user):
-    """Exibe o extrato do usuário logado."""
+def consultar_extrato(user_config):
     if user_config.selected_user:
         cpf = user_config.selected_user['cpf']
         extrato = usuario_cpf_extrato_por_cpf(cpf)
@@ -140,8 +135,8 @@ def consultar_extrato(user_config, cpf_user):
     else:
         print("Nenhum usuário foi selecionado.")
 
+
 def usuario_cpf_extrato_por_cpf(cpf, caminho_arquivo='actions_user/extrato.txt'):
-    """Lê e retorna todas as transações de um usuário pelo CPF."""
     extratos_usuario = []
     try:
         with open(caminho_arquivo, 'r', encoding='utf-8') as arquivo:
@@ -151,15 +146,13 @@ def usuario_cpf_extrato_por_cpf(cpf, caminho_arquivo='actions_user/extrato.txt')
     except FileNotFoundError:
         print(f"Arquivo '{caminho_arquivo}' não encontrado.")
     except Exception as e:
-        print(f"Erro ao usuario_cpf o extrato: {e}")
-
+        print(f"Erro ao acessar o extrato: {e}")
     return extratos_usuario
-from datetime import datetime
+
 
 def adicionar_extrato(user, valor, tipo, moeda, caminho_arquivo='actions_user/extrato.txt'):
     data_hora = datetime.now().strftime('%d-%m-%Y %H:%M')
     operacao = '+' if tipo == 'compra' else '-'
-
     linha = (
         f"{user['cpf']} {data_hora} {operacao} {valor:.2f} {moeda} "
         f"CT: 0.0 TX: 0.00 "

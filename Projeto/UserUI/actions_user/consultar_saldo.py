@@ -1,11 +1,8 @@
-
-# consulta o saldo
 def methconsultar_saldo(user_config, cpf):
-    """Consulta o saldo do usuário logado."""
     if user_config.select_user_by_cpf(cpf):
-        print(f"Saldo: {user_config.saldo}")
-        print(f"Bitcoin: {user_config.bitcoin}")
-        print(f"Ethereum: {user_config.ethereum}")
-        print(f"Ripple: {user_config.ripple}")
+        print(f"Carteira: {user_config.saldo}")
+        print(f"Bitcoins: {user_config.bitcoin}")
+        print(f"Ethereums: {user_config.ethereum}")
+        print(f"Ripples: {user_config.ripple}")
     else:
-        print("Não foi possível selecionar o usuário.")
+        print("Impossível de selecionar Usuário.")

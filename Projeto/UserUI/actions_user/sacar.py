@@ -7,13 +7,13 @@ def mathsacar(user_config, cpf):
         valor = float(input("Digite o valor para saque: "))
 
         if user_config.selected_user['saldo'] >= valor:
-            user_config.selected_user['saldo'] -= valor  # Atualiza o saldo
+            user_config.selected_user['saldo'] -= valor
             print(f"Saque de {valor} realizado com sucesso!")
 
             user_config.salvar_users()
         else:
-            print("Saldo insuficiente.")
+            print("Saldo insuficiente!")
     else:
-        print("Usuário não encontrado.")
+        print("Usuário não encontrado!")
 
     gerar_extrato(user_config.selected_user, valor, 'REAL', 'saque')

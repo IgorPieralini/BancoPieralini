@@ -6,11 +6,11 @@ def mathdepositar(user_config, cpf):
     if user_config.select_user_by_cpf(cpf):
         valor = float(input("Digite o valor para depósito: "))
         user_config.selected_user['saldo'] += valor
-        print(f"Depósito de {valor} realizado com sucesso!")
+        print(f"Depósito de {valor} realizado com sucesso.")
 
         user_config.salvar_users()
     else:
-        print("Usuário não encontrado.")
+        print("Não encontramos o usuário.")
 
     gerar_extrato(user_config.selected_user, valor, 'REAL', 'deposito')
 
