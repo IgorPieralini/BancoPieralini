@@ -5,7 +5,7 @@ from Projeto.UserUI.actions_user.comprar_cripto import mathcomprar_cripto
 from Projeto.UserUI.actions_user.vender_cripto import mathvender_cripto
 from Projeto.UserUI.actions_user.atualizar_cotacao import mathatualizar_cotacao
 from Projeto.UserUI.actions_user.sair import mathsair
-from Projeto.UserUI.actions_user.ConfigUser import ConfigUser, consultar_extrato
+from Projeto.UserUI.actions_user.ConfigUser import ConfigUser, adicionar_extrato, consultar_extrato
 
 # Inicializa a classe ConfigUser com o caminho para o arquivo de usuários
 caminho = 'actions_user/users.txt'
@@ -45,7 +45,7 @@ def executar_interface_usuario(user_config, cpf_user):
         methconsultar_saldo(user_config, cpf_user)
 
     def consultar_extrato_opcao():
-        consultar_extrato(user_config, cpf_user)  # Passa os parâmetros corretamente
+        consultar_extrato(user_config)  # Passa os parâmetros corretamente
 
     def depositar():
         mathdepositar(user_config, cpf_user)
